@@ -1,9 +1,8 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-
+import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import Footer from "@/components/Footer";
 import Header from "../components/Header";
-
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -17,7 +16,7 @@ export const Route = createRootRoute({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "TanStack Start Starter",
+				title: "TanStack MDX Example",
 			},
 		],
 		links: [
@@ -51,6 +50,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						},
 					]}
 				/>
+				<Footer />
 				<Scripts />
 			</body>
 		</html>
