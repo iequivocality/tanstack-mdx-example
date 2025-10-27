@@ -1,5 +1,8 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
+/**
+ * This provides the layout structure for any route under /posts.
+ */
 export const Route = createFileRoute("/posts")({
 	component: RouteComponent,
 });
