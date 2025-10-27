@@ -20,18 +20,16 @@ export function hasMetadata(
 	return metadata.title !== undefined && typeof metadata.title === "string";
 }
 
-export async function getMarkdownData(
-	fileUrl: string,
-): Promise<MarkdownData> {
+export async function getMarkdownData(fileUrl: string): Promise<MarkdownData> {
 	const mdxSource = await fs.readFile(path.join(process.cwd(), fileUrl));
-  const post = String(
-    await compile(mdxSource, {
-      remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkGfm], // add as diff
-      outputFormat: "function-body",
-    }),
-  );
+	const post = String(
+		await compile(mdxSource, {
+			remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkGfm], // add as diff
+			outputFormat: "function-body",
+		}),
+	);
 
-  return {
-    content: post,
-  };
+	return {
+		content: post,
+	};
 }

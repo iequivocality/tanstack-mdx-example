@@ -1,9 +1,10 @@
 import { run } from "@mdx-js/mdx";
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { Suspense, use } from "react";
+import { ComponentProps, Suspense, use } from "react";
 import * as runtime from "react/jsx-runtime";
 import { mdxComponents } from "@/components/blog";
+import { SimpleCircle } from "@/components/SimpleCircle";
 import { getMarkdownData, hasMetadata } from "@/markdown";
 
 const getBlog = createServerFn({ method: "GET" })
@@ -28,6 +29,9 @@ const getBlog = createServerFn({ method: "GET" })
 		return getMarkdownData(`content/${data.slug}.mdx`);
 	});
 
+/**
+ * Call the createServerFn from the loader passing the route parameter.
+ */
 export const Route = createFileRoute("/posts/$slug")({
 	loader: ({ params: { slug } }) => getBlog({ data: { slug } }),
 	component: RouteComponent,
@@ -36,20 +40,28 @@ export const Route = createFileRoute("/posts/$slug")({
 function RouteComponent() {
 	const post = Route.useLoaderData();
 
-	// run the module as JSX runtime
+	/**
+	 * Run the module as a JSX runtime.
+	 */
 	const contentRun = run(post.content, {
 		...runtime,
 		baseUrl: import.meta.url,
 	});
 	const { default: MDXContent, frontmatter } = use(contentRun);
-	console.log(frontmatter);
 
+	/**
+	 * We call this function to narrow our types
+	 * from the very broad unknown type to the metadata
+	 * type we defined earlier.
+	 */
 	if (!hasMetadata(frontmatter)) {
 		return null;
 	}
 
 	return (
 		<Suspense fallback={"Loading..."}>
+			{/** At this point we narrowed the type from unknown to the type definition we added earlier */}
+			{/* <h1 className="text-xl font-black mb-12">{frontmatter.title}</h1>  */}
 			<MDXContent components={mdxComponents({})} />
 		</Suspense>
 	);
