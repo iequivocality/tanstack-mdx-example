@@ -10,7 +10,7 @@ function RouteComponent() {
 			Hello "/posts/"!
 			<ul className="list-disc">
 				<li>
-					<Link to="/posts/$slug" params={{ slug: "/sample" }}>
+					<Link className="text-blue-500" to="/posts/$slug" params={{ slug: "/sample" }}>
 						Sample blog here
 					</Link>
 				</li>
